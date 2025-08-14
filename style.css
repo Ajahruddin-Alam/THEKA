@@ -84,7 +84,7 @@
   position: relative;
   width: 100%;
   height: 50vh; /* flexible height */
-  background: url('/image/pexels-thepaintedsquare-606545.jpg') no-repeat center center/cover;
+  background: url('./image/pexels-thepaintedsquare-606545.jpg') no-repeat center center/cover;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -132,7 +132,7 @@
 #crafted {
   text-align: center;
   padding: 60px 5%;
-  background: url('/image/pexels-solodsha-9009825.jpg') no-repeat center center/cover;
+  background: url('./image/pexels-solodsha-9009825.jpg') no-repeat center center/cover;
 }
 
 #crafted h4 {
@@ -452,7 +452,7 @@ main{
     left: 0;
     width: 200%;
     height: 200%;
-    background: url("/image/Coffee\ bin\ transaprant\ image.png") repeat;
+    background: url("./image/Coffee\ bin\ transaprant\ image.png") repeat;
     background-size: 150px;
     opacity: 0.1; /* Light transparent effect */
     animation: floatBeans 25s linear infinite;
@@ -601,7 +601,7 @@ main{
     left: 0;
     width: 200%;
     height: 200%;
-    background: url("/image/Coffee\ bin\ transaprant\ image.png") repeat;
+    background: url("./image/Coffee\ bin\ transaprant\ image.png") repeat;
     background-size: 150px;
     opacity: 0.07; /* Thoda aur light */
     animation: floatBeans 25s linear infinite;
@@ -639,7 +639,7 @@ main{
     left: 0;
     width: 200%;
     height: 200%;
-    background: url("/image/coffee-bean.png") repeat;
+    background: url("./image/coffee-bean.png") repeat;
     background-size: 120px;
     opacity: 0.08;
     animation: floatBeans 40s ease-in-out infinite;
@@ -723,7 +723,7 @@ main{
     left: 0;
     width: 200%;
     height: 200%;
-    background: url('/image/coffee-bean.png') repeat;
+    background: url('./image/coffee-bean.png') repeat;
     opacity: 0.2;
     animation: floatBeans 25s linear infinite;
     z-index: 0;
@@ -981,7 +981,7 @@ footer {
     position: relative;
     overflow: hidden;
     background: linear-gradient(rgba(40, 25, 15, 0.95), rgba(40, 25, 15, 0.95)),
-                url('/image/184-1845407_beans-icon-coffee-bean.png') center/cover no-repeat;
+                url('./image/184-1845407_beans-icon-coffee-bean.png') center/cover no-repeat;
     padding: 40px 20px;
     color: white;
     font-family: 'Poppins', sans-serif;
@@ -995,7 +995,7 @@ footer::before {
     left: 0;
     width: 100%;
     height: 200%;
-    background: url('/image/2178893.png') repeat;
+    background: url('./image/2178893.png') repeat;
     background-size: 80px;
     opacity: 0.08;
     animation: floatBeans 40s linear infinite;
