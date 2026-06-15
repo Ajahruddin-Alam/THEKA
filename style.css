@@ -2254,11 +2254,13 @@ main{
 
 .gallery-item{
 
-    position:relative;
+    break-inside:avoid;
+
+    margin-bottom:15px;
 
     overflow:hidden;
 
-    border-radius:20px;
+    border-radius:15px;
 
     cursor:pointer;
 }
