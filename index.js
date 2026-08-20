@@ -144,95 +144,159 @@ document.addEventListener("DOMContentLoaded", () => {
 document.addEventListener("DOMContentLoaded", () => {
 
     const counters =
-    document.querySelectorAll(".counter");
+        document.querySelectorAll(".counter");
 
     const statsSection =
-    document.querySelector(".stats-section");
+        document.querySelector(".stats-section");
 
-    if(!statsSection) return;
+    // Stats section nahi hai
+    if (!statsSection || counters.length === 0) {
+        return;
+    }
 
-    const startCounter = () => {
+
+    let counterStarted = false;
+
+
+    function startCounter() {
+
+        // Prevent duplicate animation
+        if (counterStarted) {
+            return;
+        }
+
+        counterStarted = true;
+
 
         counters.forEach(counter => {
 
             const target =
-            parseInt(
-            counter.dataset.target
-            );
+                Number(counter.dataset.target);
 
-            let count = 0;
+            // Invalid target check
+            if (!Number.isFinite(target)) {
+                return;
+            }
 
-            const speed = target / 100;
 
-            const updateCounter = () => {
+            const duration = 1500;
 
-                if(count < target){
+            const startTime =
+                performance.now();
 
-                    count += speed;
 
-                    counter.innerText =
-                    Math.ceil(count);
+            function updateCounter(currentTime) {
 
-                    requestAnimationFrame(
-                    updateCounter
+                const elapsed =
+                    currentTime - startTime;
+
+                const progress =
+                    Math.min(
+                        elapsed / duration,
+                        1
                     );
 
-                }else{
 
-                    if(target === 5000){
+                // Smooth animation
+                const currentValue =
+                    Math.floor(
+                        progress * target
+                    );
+
+
+                counter.innerText =
+                    currentValue.toLocaleString();
+
+
+                if (progress < 1) {
+
+                    requestAnimationFrame(
+                        updateCounter
+                    );
+
+                } else {
+
+                    // Final display
+                    if (target === 5000) {
+
                         counter.innerText =
-                        "5000+";
+                            "5000+";
+
                     }
 
-                    else if(target === 50){
+                    else if (target === 50) {
+
                         counter.innerText =
-                        "50+";
+                            "50+";
+
                     }
 
-                    else if(target === 100){
+                    else if (target === 100) {
+
                         counter.innerText =
-                        "100%";
+                            "100%";
+
                     }
 
-                    else if(target === 5){
+                    else if (target === 5) {
+
                         counter.innerText =
-                        "5★";
+                            "5★";
+
+                    }
+
+                    else {
+
+                        counter.innerText =
+                            target.toLocaleString();
+
                     }
 
                 }
 
-            };
-
-            updateCounter();
-
-        });
-
-    };
-
-    const observer =
-    new IntersectionObserver(
-    (entries)=>{
-
-        entries.forEach(entry=>{
-
-            if(entry.isIntersecting){
-
-                startCounter();
-
-                observer.unobserve(
-                statsSection
-                );
-
             }
 
+
+            requestAnimationFrame(
+                updateCounter
+            );
+
         });
 
-    }, {
-        threshold:0.4
-    });
+    }
+
+
+    // Observe stats section
+    const observer =
+        new IntersectionObserver(
+
+            entries => {
+
+                entries.forEach(entry => {
+
+                    if (entry.isIntersecting) {
+
+                        startCounter();
+
+                        observer.unobserve(
+                            statsSection
+                        );
+
+                    }
+
+                });
+
+            },
+
+            {
+                threshold: 0.25
+            }
+
+        );
+
 
     observer.observe(
-    statsSection
+        statsSection
     );
 
 });
