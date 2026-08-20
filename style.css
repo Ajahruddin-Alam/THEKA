@@ -1131,7 +1131,7 @@ font-size:16px;
 
 .menu-section{
     padding:100px 8%;
-    background:#111;
+        background: linear-gradient(to bottom, #111, #1b1b1b);
 }
 
 .section-title{
@@ -3369,8 +3369,9 @@ body{
 .testimonial-section,
 .why-us-section,
 .offers-section,
-.contact-section{
-    background:transparent;
+.contact-section,
+.about-features{
+        background: linear-gradient(to bottom, #111, #1b1b1b);
 }
 
 html,
