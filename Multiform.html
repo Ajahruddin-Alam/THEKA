@@ -2,97 +2,305 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Form</title>
-    <link rel="stylesheet" href="./Multiform.css">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Login | Coffee Bar Point</title>
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <link rel="stylesheet"
+          href="Multiform.css">
+<link rel="stylesheet" href="./style.css">
 </head>
 
-<body >
-    <div class="container">
-        <form id="form1">
-            <h3>Create Account</h3>
-            <input type="email" id="email" placeholder="Email" required>
-            <input type="password" id="Password" placeholder="Password" required>
-            <input type="password" id="Password" placeholder="Conform  Password" required>
+<body>
 
-            <div class="btn-box">
-                <button type="button" id="next1">Next</button>
+<div class="login-page">
+
+    <!-- LEFT SIDE -->
+
+    <div class="login-image">
+
+        <div class="image-overlay">
+
+            <div class="brand">
+                ☕ Coffee Bar Point
             </div>
-        </form>
 
-        <form id="form2">
-            <h3>Social Link</h3>
-            <input type="text" placeholder="Medium">
-            <input type="text" placeholder="Github">
-            <input type="text" placeholder="Linkendin">
+            <div class="image-text">
 
-            <div class="btn-box">
-                <button type="button" id="back1">Back</button>
-                <button type="button" id="next2">Next</button>
+                <h1>
+                    Fresh Coffee.<br>
+                    Happy Moments.
+                </h1>
+
+                <p>
+                    Your favourite coffee and snacks,
+                    just a few clicks away.
+                </p>
+
             </div>
-        </form>
 
-
-        <form id="form3">
-            <h3>Personal INFO</h3>
-            <input type="text" placeholder="First Name" required>
-            <input type="text" placeholder="Last Name" required>
-            <input type="number" placeholder="Mobile" required>
-
-            <div class="btn-box">
-                <button type="button" id="back2">Back</button>
-               <button type="submit"><a href="./index.html" style="color: white;text-decoration: none;">Submit</a></button>
-            </div>
-        </form>
-
-        <div class="step-row">
-            <div id="progress"></div>
-
-            <div class="step-col"> <small>step1</small> </div>
-            <div class="step-col"> <small>step2</small> </div>
-            <div class="step-col"> <small>step3</small> </div>
         </div>
 
     </div>
 
 
-    <script>
-        var form1 = document.getElementById("form1");
-        var form3 = document.getElementById("form2");
-        var form3 = document.getElementById("form3");
+    <!-- RIGHT SIDE -->
 
-        var next1 = document.getElementById("next1");
-        var next2 = document.getElementById("next2");
-        var back1 = document.getElementById("back1");
-        var back2 = document.getElementById("back2");
+    <div class="login-section">
 
-        var progress = document.getElementById("progress");
+        <div class="login-box">
 
-        next1.onclick = function () {
-            form1.style.left = "-450px";
-            form2.style.left = "40px";
-            progress.style.width = "240px";
+            <div class="mobile-logo">
+                ☕ Coffee Bar Point
+            </div>
+
+            <h2>
+                Welcome Back! 👋
+            </h2>
+
+            <p class="login-subtitle">
+                Login to continue your coffee journey.
+            </p>
+
+
+            <form id="loginForm">
+
+                <!-- EMAIL -->
+
+                <div class="input-group">
+
+                    <label>
+                        Email or Mobile
+                    </label>
+
+                    <div class="input-box">
+
+                        <i class="fa-regular fa-user"></i>
+
+                        <input
+                            type="text"
+                            id="loginEmail"
+                            placeholder="Enter email or mobile"
+                            required>
+
+                    </div>
+
+                </div>
+
+
+                <!-- PASSWORD -->
+
+                <div class="input-group">
+
+                    <div class="password-label">
+
+                        <label>
+                            Password
+                        </label>
+
+                        <a href="#">
+                            Forgot Password?
+                        </a>
+
+                    </div>
+
+                    <div class="input-box">
+
+                        <i class="fa-solid fa-lock"></i>
+
+                        <input
+                            type="password"
+                            id="loginPassword"
+                            placeholder="Enter password"
+                            required>
+
+                        <button
+                            type="button"
+                            class="password-toggle"
+                            onclick="togglePassword()">
+
+                            <i
+                            id="eyeIcon"
+                            class="fa-regular fa-eye">
+                            </i>
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- REMEMBER -->
+
+                <div class="remember-row">
+
+                    <label>
+
+                        <input
+                            type="checkbox"
+                            id="rememberMe">
+
+                        <span>
+                            Remember me
+                        </span>
+
+                    </label>
+
+                </div>
+
+
+                <!-- LOGIN -->
+
+                <button
+                    type="submit"
+                    class="login-btn">
+
+                    Login
+
+                    <i class="fa-solid fa-arrow-right"></i>
+
+                </button>
+
+
+                <!-- DIVIDER -->
+
+                <div class="divider">
+
+                    <span>OR</span>
+
+                </div>
+
+
+                <!-- GOOGLE -->
+
+                <button
+                    type="button"
+                    class="google-btn">
+
+                    <i class="fa-brands fa-google"></i>
+
+                    Continue with Google
+
+                </button>
+
+
+                <!-- SIGNUP -->
+
+                <p class="signup-text">
+
+                    Don't have an account?
+
+                    <a href="#">
+                        Create Account
+                    </a>
+
+                </p>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+function togglePassword(){
+
+    const password =
+        document.getElementById(
+            "loginPassword"
+        );
+
+    const icon =
+        document.getElementById(
+            "eyeIcon"
+        );
+
+
+    if(password.type === "password"){
+
+        password.type = "text";
+
+        icon.classList.remove(
+            "fa-eye"
+        );
+
+        icon.classList.add(
+            "fa-eye-slash"
+        );
+
+    }else{
+
+        password.type = "password";
+
+        icon.classList.remove(
+            "fa-eye-slash"
+        );
+
+        icon.classList.add(
+            "fa-eye"
+        );
+
+    }
+
+}
+
+
+document
+.getElementById("loginForm")
+.addEventListener(
+    "submit",
+    function(e){
+
+        e.preventDefault();
+
+        const email =
+            document
+            .getElementById("loginEmail")
+            .value.trim();
+
+        const password =
+            document
+            .getElementById("loginPassword")
+            .value.trim();
+
+
+        if(!email || !password){
+
+            alert(
+                "Please enter your login details."
+            );
+
+            return;
+
         }
-        back1.onclick = function () {
-            form1.style.left = "40px";
-            form2.style.left = "450px";
-            progress.style.width = "120px";
-        }
-        next2.onclick = function () {
-            form2.style.left = "-450px";
-            form3.style.left = "40px";
-            progress.style.width = "360px";
-        }
-        back2.onclick = function () {
-            form2.style.left = "40px";
-            form3.style.left = "450px";
-            progress.style.width = "240px";
 
-        }
 
-    </script>
+        /*
+         * Temporary login
+         *
+         * Later we will connect this
+         * with Firebase / backend.
+         */
+
+        window.location.href =
+            "index.html";
+
+    }
+);
+
+</script>
 
 </body>
 
