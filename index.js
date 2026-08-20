@@ -1,3 +1,7 @@
+let appliedDiscount = 0;
+let appliedCoupon = "";
+
+
 window.addEventListener("scroll", () => {
 
     const navbar =
@@ -300,6 +304,8 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
 });
+
+let cart = [];
 document.addEventListener("DOMContentLoaded", () => {
 
 const menuItems = [
@@ -372,8 +378,12 @@ ${item.bestSeller
 ${item.price}
 </span>
 
-<button class="order-btn">
-Order Now
+<button class="order-btn"
+onclick="addToCart(
+'${item.name}',
+${item.price.replace('₹','')}
+)">
+    Add To Cart
 </button>
 
 </div>
@@ -386,6 +396,7 @@ Order Now
 });
 
 }
+
 
 renderMenu();
 
@@ -505,3 +516,534 @@ AOS.init({
     offset:120
 
 });
+
+function addToCart(name, price){
+
+    const existingItem =
+    cart.find(item =>
+        item.name === name
+    );
+
+    if(existingItem){
+
+        existingItem.qty++;
+
+    }else{
+
+        cart.push({
+
+            name:name,
+
+            price:price,
+
+            qty:1
+
+        });
+
+    }
+
+    updateCartCount();
+
+    updateCartUI();   // ← IMPORTANT
+
+    console.log(cart);
+    console.log(
+document.getElementById(
+"cartItems"
+)
+);
+
+}
+
+
+function updateCartCount(){
+
+    const totalItems =
+    cart.reduce(
+        (sum,item)=>
+        sum + item.qty,
+        0
+    );
+
+    document.getElementById(
+        "cartCount"
+    ).innerText = totalItems;
+
+}
+
+var tidio =
+document.getElementById(
+"tidio-chat-code"
+);
+
+document.addEventListener(
+"keydown",
+function(e){
+
+    if(e.key === "Escape"){
+
+        document
+        .getElementById("cartSidebar")
+        .classList
+        .remove("active");
+
+        document
+        .getElementById("cartOverlay")
+        .classList
+        .remove("active");
+
+    }
+
+});
+
+function toggleCart(){
+
+    document
+    .getElementById("cartSidebar")
+    .classList
+    .toggle("active");
+
+    document
+    .getElementById("cartOverlay")
+    .classList
+    .toggle("active");
+
+}
+
+
+
+
+function increaseQty(name){
+
+    const item =
+    cart.find(
+        item => item.name === name
+    );
+
+    if(item){
+
+        item.qty++;
+
+    }
+
+    updateCartUI();
+
+    updateCartCount();
+
+}
+
+function decreaseQty(name){
+
+    const item =
+    cart.find(
+        item => item.name === name
+    );
+
+    if(!item) return;
+
+    if(item.qty > 1){
+
+        item.qty--;
+
+    }else{
+
+        cart =
+        cart.filter(
+            i => i.name !== name
+        );
+
+    }
+
+    updateCartUI();
+
+    updateCartCount();
+
+}
+
+
+
+const coupons = [
+
+{
+    code:"WELCOME5",
+    discount:5,
+    min:0,
+    description:"5% OFF First Order"
+},
+
+{
+    code:"COFFEE10",
+    discount:10,
+    min:300,
+    description:"10% OFF Above ₹300"
+},
+
+{
+    code:"COFFEE15",
+    discount:15,
+    min:500,
+    description:"15% OFF Above ₹500"
+},
+
+{
+    code:"COFFEE20",
+    discount:20,
+    min:1000,
+    description:"20% OFF Above ₹1000"
+}
+
+];
+
+
+function renderCoupons(total){
+
+    const couponCards =
+    document.getElementById("couponCards");
+
+    if(!couponCards) return;
+
+    couponCards.innerHTML = "";
+
+    let coupon = null;
+
+    if(total >= 1000){
+
+        coupon = {
+            code:"COFFEE20",
+            discount:20,
+            text:"20% OFF Above ₹1000"
+        };
+
+    }else if(total >= 500){
+
+        coupon = {
+            code:"COFFEE15",
+            discount:15,
+            text:"15% OFF Above ₹500"
+        };
+
+    }else if(total >= 300){
+
+        coupon = {
+            code:"COFFEE10",
+            discount:10,
+            text:"10% OFF Above ₹300"
+        };
+
+    }else{
+
+        couponCards.innerHTML = `
+        <p style="color:#777;font-size:14px;">
+        🚀 Add ₹${300-total} more to unlock COFFEE10
+        </p>
+        `;
+        return;
+    }
+
+    const isApplied =
+    appliedCoupon === coupon.code;
+
+    couponCards.innerHTML = `
+
+    <div class="coupon-card">
+
+        <div class="coupon-info">
+
+            <h5>${coupon.code}</h5>
+
+            <p>${coupon.text}</p>
+
+        </div>
+
+        ${
+            isApplied
+
+            ?
+
+            `<span
+            class="applied-chip"
+            onclick="applyCoupon('${coupon.code}',${coupon.discount})">
+
+            ✓ APPLIED
+
+            </span>`
+
+            :
+
+            `<button
+            class="apply-btn"
+            onclick="applyCoupon('${coupon.code}',${coupon.discount})">
+
+            Apply
+
+            </button>`
+        }
+
+    </div>
+
+    `;
+}
+
+
+function updateCartUI(){
+
+    const cartItems =
+    document.getElementById("cartItems");
+
+    let total = 0;
+
+    cartItems.innerHTML = "";
+
+    cart.forEach(item => {
+
+        total += item.price * item.qty;
+
+        cartItems.innerHTML += `
+
+<div class="cart-item">
+
+    <div class="cart-info">
+
+        <div class="item-row">
+
+            <h4>${item.name}</h4>
+
+            <div class="qty-controls">
+
+                <button onclick="decreaseQty('${item.name}')">
+                    -
+                </button>
+
+                <span>${item.qty}</span>
+
+                <button onclick="increaseQty('${item.name}')">
+                    +
+                </button>
+
+            </div>
+
+        </div>
+
+        <p class="item-total">
+
+            ₹${item.price} × ${item.qty}
+
+        </p>
+
+        <p class="item-subtotal">
+
+            Total: ₹${item.price * item.qty}
+
+        </p>
+
+    </div>
+
+</div>
+
+`;
+
+    });
+
+    // Coupon Discount
+
+    let discountAmount = 0;
+
+    if(appliedDiscount > 0){
+
+        discountAmount =
+        (total * appliedDiscount) / 100;
+
+    }
+
+    // Delivery Charge
+
+    let deliveryCharge = 50;
+
+    if(total >= 500){
+
+        deliveryCharge = 0;
+
+    }
+
+    // Final Total
+
+    let finalTotal =
+    total - discountAmount + deliveryCharge;
+
+    // Order Summary
+
+    document.getElementById(
+    "subtotalPrice"
+    ).innerText =
+    "₹" + total;
+
+    document.getElementById(
+    "discountPrice"
+    ).innerText =
+    "-₹" + discountAmount.toFixed(0);
+
+    document.getElementById(
+    "deliveryCharge"
+    ).innerHTML =
+
+    deliveryCharge === 0
+
+    ? '<span style="color:green;">FREE</span>'
+
+    : '₹50';
+
+    document.getElementById(
+    "finalPrice"
+    ).innerText =
+    "₹" + finalTotal.toFixed(0);
+
+    // Coupon
+
+    renderCoupons(total);
+
+    // Free Delivery Progress
+
+    updateDeliveryProgress(total);
+
+
+    const totalItems =
+cart.reduce(
+(sum,item)=>
+sum + item.qty,
+0
+);
+
+document.querySelector(
+".cart-header h3"
+).innerHTML =
+`🛒 Your Cart (${totalItems} Items)`;
+
+
+}
+
+
+function updateDeliveryProgress(total){
+
+    const target = 500;
+
+    const remaining =
+    Math.max(0, target - total);
+
+    const percent =
+    Math.min(
+        (total / target) * 100,
+        100
+    );
+
+    document.getElementById(
+        "progressFill"
+    ).style.width =
+    percent + "%";
+
+    document.getElementById(
+        "deliveryText"
+    ).innerHTML =
+
+    remaining > 0
+
+    ? `🚚 Add ₹${remaining} more for FREE Delivery`
+
+    : `🎉 Congratulations! FREE Delivery Unlocked`;
+
+
+}
+
+function applyCoupon(code,discount){
+
+    if(appliedCoupon === code){
+
+        appliedCoupon = "";
+        appliedDiscount = 0;
+
+    }else{
+
+        appliedCoupon = code;
+        appliedDiscount = discount;
+
+    }
+
+    updateCartUI();
+
+}
+
+function openCheckout(){
+
+    document
+    .getElementById(
+    "checkoutModal"
+    )
+    .classList
+    .add("active");
+
+}
+
+function placeOrder(){
+
+    const name =
+    document.getElementById(
+    "customerName"
+    ).value;
+
+    const mobile =
+    document.getElementById(
+    "customerMobile"
+    ).value;
+
+    const address =
+    document.getElementById(
+    "customerAddress"
+    ).value;
+
+    let orderText =
+    "☕ Coffee Bar Point Order\n\n";
+
+    cart.forEach(item=>{
+
+        orderText +=
+
+        `${item.name}
+        x${item.qty}
+        = ₹${item.price * item.qty}\n`;
+
+    });
+
+    orderText +=
+    `\nName: ${name}`;
+
+    orderText +=
+    `\nMobile: ${mobile}`;
+
+    orderText +=
+    `\nAddress: ${address}`;
+
+    window.open(
+
+    `https://wa.me/91YOURNUMBER?text=${
+        encodeURIComponent(orderText)
+    }`
+
+    );
+
+    document
+.getElementById(
+"successPopup"
+)
+.classList
+.add("active");
+}
+
+function closeSuccessPopup(){
+
+    document
+    .getElementById(
+    "successPopup"
+    )
+    .classList
+    .remove("active");
+
+}
