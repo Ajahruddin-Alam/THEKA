@@ -1,6 +1,6 @@
 let appliedDiscount = 0;
 let appliedCoupon = "";
-
+let currentOrderId = "";
 
 window.addEventListener("scroll", () => {
 
@@ -982,68 +982,394 @@ function openCheckout(){
 
 }
 
+function generateOrderId(){
+
+    const now = new Date();
+
+    const date =
+        now.getFullYear() +
+        String(now.getMonth() + 1).padStart(2, "0") +
+        String(now.getDate()).padStart(2, "0");
+
+    const time =
+        String(now.getHours()).padStart(2, "0") +
+        String(now.getMinutes()).padStart(2, "0") +
+        String(now.getSeconds()).padStart(2, "0");
+
+    return `CBP-${date}-${time}`;
+
+}
+
+function saveOrder(order){
+
+    let orders =
+        JSON.parse(
+            localStorage.getItem("coffeeOrders")
+        ) || [];
+
+    orders.unshift(order);
+
+    localStorage.setItem(
+        "coffeeOrders",
+        JSON.stringify(orders)
+    );
+
+}
+
 function placeOrder(){
 
+    // =========================
+    // CUSTOMER DETAILS
+    // =========================
+
     const name =
-    document.getElementById(
-    "customerName"
-    ).value;
+        document.getElementById(
+            "customerName"
+        ).value.trim();
 
     const mobile =
-    document.getElementById(
-    "customerMobile"
-    ).value;
+        document.getElementById(
+            "customerMobile"
+        ).value.trim();
 
     const address =
-    document.getElementById(
-    "customerAddress"
-    ).value;
+        document.getElementById(
+            "customerAddress"
+        ).value.trim();
 
-    let orderText =
-    "☕ Coffee Bar Point Order\n\n";
 
-    cart.forEach(item=>{
+    // =========================
+    // VALIDATION
+    // =========================
 
-        orderText +=
+    if(!name){
 
-        `${item.name}
-        x${item.qty}
-        = ₹${item.price * item.qty}\n`;
+        alert("Please enter your name.");
+
+        document
+        .getElementById("customerName")
+        .focus();
+
+        return;
+    }
+
+
+    if(!mobile){
+
+        alert("Please enter your mobile number.");
+
+        document
+        .getElementById("customerMobile")
+        .focus();
+
+        return;
+    }
+
+
+    if(!/^[0-9]{10}$/.test(mobile)){
+
+        alert(
+            "Please enter a valid 10-digit mobile number."
+        );
+
+        document
+        .getElementById("customerMobile")
+        .focus();
+
+        return;
+    }
+
+
+    if(!address){
+
+        alert("Please enter your delivery address.");
+
+        document
+        .getElementById("customerAddress")
+        .focus();
+
+        return;
+    }
+
+
+    // =========================
+    // CART CHECK
+    // =========================
+
+    if(!cart || cart.length === 0){
+
+        alert("Your cart is empty.");
+
+        return;
+    }
+
+
+    // =========================
+    // ORDER ID
+    // =========================
+
+    const orderId =
+    generateOrderId();
+
+currentOrderId = orderId;
+
+    // =========================
+    // CALCULATE SUBTOTAL
+    // =========================
+
+    let total = 0;
+
+    cart.forEach(item => {
+
+        total +=
+            item.price * item.qty;
 
     });
 
-    orderText +=
-    `\nName: ${name}`;
+
+    // =========================
+    // DISCOUNT
+    // =========================
+
+    let discountAmount = 0;
+
+    if(
+        typeof appliedDiscount !== "undefined" &&
+        appliedDiscount > 0
+    ){
+
+        discountAmount =
+            (total * appliedDiscount) / 100;
+
+    }
+
+
+    // =========================
+    // FINAL TOTAL
+    // =========================
+
+    let finalTotal =
+        total - discountAmount;
+
+
+    // =========================
+    // CREATE ORDER OBJECT
+    // =========================
+
+    const order = {
+
+        orderId: orderId,
+
+        date:
+            new Date().toISOString(),
+
+        customer: {
+
+            name: name,
+
+            mobile: mobile,
+
+            address: address
+
+        },
+
+        items:
+
+            cart.map(item => ({
+
+                name: item.name,
+
+                price: item.price,
+
+                qty: item.qty
+
+            })),
+
+        subtotal: total,
+
+        discount: discountAmount,
+
+        total: finalTotal,
+
+        coupon:
+            typeof appliedCoupon !== "undefined"
+            ? appliedCoupon
+            : "",
+
+        status: "Order Placed"
+
+    };
+
+
+    // =========================
+    // SAVE ORDER
+    // =========================
+
+    saveOrder(order);
+
+
+    // =========================
+    // WHATSAPP MESSAGE
+    // =========================
+
+    let orderText =
+        "☕ *Coffee Bar Point Order*\n\n";
+
 
     orderText +=
-    `\nMobile: ${mobile}`;
+        `🆔 Order ID: ${orderId}\n\n`;
+
+
+    // ITEMS
+
+    cart.forEach(item => {
+
+        orderText +=
+            `${item.name} × ${item.qty} = ₹${
+                item.price * item.qty
+            }\n`;
+
+    });
+
+
+    // PRICE DETAILS
 
     orderText +=
-    `\nAddress: ${address}`;
+        `\nSubtotal: ₹${total}`;
+
+
+    if(discountAmount > 0){
+
+        orderText +=
+            `\nDiscount: -₹${
+                discountAmount.toFixed(0)
+            }`;
+
+    }
+
+
+    if(
+        typeof appliedCoupon !== "undefined" &&
+        appliedCoupon
+    ){
+
+        orderText +=
+            `\nCoupon: ${appliedCoupon}`;
+
+    }
+
+
+    orderText +=
+        `\nTotal: ₹${finalTotal.toFixed(0)}`;
+
+
+    // CUSTOMER DETAILS
+
+    orderText +=
+        `\n\n👤 Name: ${name}`;
+
+    orderText +=
+        `\n📱 Mobile: ${mobile}`;
+
+    orderText +=
+        `\n📍 Address: ${address}`;
+
+
+    // ORDER STATUS
+
+    orderText +=
+        `\n\n🟡 Status: Order Placed`;
+
+
+    // =========================
+    // WHATSAPP
+    // =========================
+
+    const whatsappNumber =
+        "917355346438";
+
+
+    const whatsappURL =
+        `https://wa.me/${whatsappNumber}?text=${
+            encodeURIComponent(orderText)
+        }`;
+
 
     window.open(
-
-    `https://wa.me/91YOURNUMBER?text=${
-        encodeURIComponent(orderText)
-    }`
-
+        whatsappURL,
+        "_blank"
     );
 
+
+    // =========================
+    // SUCCESS POPUP
+    // =========================
+
     document
-.getElementById(
-"successPopup"
-)
-.classList
-.add("active");
+        .getElementById("successPopup")
+        .classList
+        .add("active");
+
+
+    // =========================
+    // OPTIONAL:
+    // SHOW ORDER ID IN POPUP
+    // =========================
+
+    const orderIdElement =
+        document.getElementById(
+            "successOrderId"
+        );
+
+
+    if(orderIdElement){
+
+        orderIdElement.innerText =
+            orderId;
+
+    }
+
 }
 
 function closeSuccessPopup(){
 
     document
-    .getElementById(
-    "successPopup"
-    )
+    .getElementById("successPopup")
     .classList
     .remove("active");
+
+}
+function continueShopping(){
+
+    window.location.href = "index.html";
+
+}
+
+function trackCurrentOrder(){
+
+    if(!currentOrderId){
+
+        alert("Order information not found.");
+
+        return;
+
+    }
+
+    document.getElementById(
+        "trackingOrderId"
+    ).innerText =
+        currentOrderId;
+
+    document.getElementById(
+        "trackingModal"
+    ).classList.add("active");
+
+}
+
+function closeTrackingModal(){
+
+    document.getElementById(
+        "trackingModal"
+    ).classList.remove("active");
 
 }

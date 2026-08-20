@@ -1274,13 +1274,193 @@ onclick="toggleCart()">
             Coffee Bar Point.
         </p>
 
-        <button onclick="closeSuccessPopup()">
+        <p class="success-order-id">
+            Order ID:
+            <strong id="successOrderId"></strong>
+        </p>
+
+        <div class="success-actions">
+
+            <button
+            class="track-order-btn"
+            onclick="trackCurrentOrder()">
+
+                📦 Track Order
+
+            </button>
+
+            <button
+            class="continue-shopping-btn"
+            onclick="continueShopping()">
+
+                ☕ Continue Shopping
+
+            </button>
+
+            <button
+            class="close-success-btn"
+            onclick="closeSuccessPopup()">
+
+                ✕ Close
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<div id="trackingModal">
+
+    <div class="tracking-content">
+
+        <button
+            class="tracking-close"
+            onclick="closeTrackingModal()">
+
+            <i class="fas fa-times"></i>
+
+        </button>
+
+        <div class="tracking-icon">
+            📦
+        </div>
+
+        <h3>Track Your Order</h3>
+
+        <p class="tracking-order-id">
+            Order ID:
+            <strong id="trackingOrderId">
+                --
+            </strong>
+        </p>
+
+        <div class="tracking-status">
+
+            <div class="tracking-step active">
+
+                <div class="step-icon">
+                    ✓
+                </div>
+
+                <div class="step-info">
+
+                    <strong>Order Placed</strong>
+
+                    <span>
+                        Your order has been received
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="tracking-line"></div>
+
+
+            <div class="tracking-step">
+
+                <div class="step-icon">
+                    2
+                </div>
+
+                <div class="step-info">
+
+                    <strong>Order Accepted</strong>
+
+                    <span>
+                        Waiting for confirmation
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="tracking-line"></div>
+
+
+            <div class="tracking-step">
+
+                <div class="step-icon">
+                    3
+                </div>
+
+                <div class="step-info">
+
+                    <strong>Preparing</strong>
+
+                    <span>
+                        Your order is being prepared
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="tracking-line"></div>
+
+
+            <div class="tracking-step">
+
+                <div class="step-icon">
+                    4
+                </div>
+
+                <div class="step-info">
+
+                    <strong>Ready</strong>
+
+                    <span>
+                        Your order is ready
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="tracking-line"></div>
+
+
+            <div class="tracking-step">
+
+                <div class="step-icon">
+                    5
+                </div>
+
+                <div class="step-info">
+
+                    <strong>Completed</strong>
+
+                    <span>
+                        Order completed
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <button
+            class="tracking-close-btn"
+            onclick="closeTrackingModal()">
+
             Continue Shopping
+
         </button>
 
     </div>
 
 </div>
+
+
 
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"

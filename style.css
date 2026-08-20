@@ -4472,3 +4472,316 @@ font-size:12px;
 
     margin-bottom:15px;
 }
+
+.success-actions{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:10px;
+
+    margin-top:20px;
+}
+
+.success-actions button{
+
+    width:100%;
+
+    padding:12px 18px;
+
+    border:none;
+
+    border-radius:30px;
+
+    font-size:15px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.3s;
+}
+
+.track-order-btn{
+
+    background:#D4A017;
+
+    color:#111;
+}
+
+.continue-shopping-btn{
+
+    background:#111;
+
+    color:#fff;
+}
+
+.close-success-btn{
+
+    background:transparent;
+
+    color:#777;
+
+    border:1px solid #ddd !important;
+}
+
+.success-actions button:hover{
+
+    transform:translateY(-2px);
+}
+
+#trackingModal{
+
+    position:fixed;
+
+    inset:0;
+
+    background:rgba(0,0,0,.65);
+
+    display:none;
+
+    justify-content:center;
+
+    align-items:center;
+
+    padding:20px;
+
+    z-index:10000000;
+
+}
+
+#trackingModal.active{
+
+    display:flex;
+
+}
+
+.tracking-content{
+
+    position:relative;
+
+    width:100%;
+
+    max-width:450px;
+
+    max-height:90vh;
+
+    overflow-y:auto;
+
+    background:#fff;
+
+    border-radius:24px;
+
+    padding:30px 25px;
+
+    box-shadow:
+    0 20px 60px
+    rgba(0,0,0,.25);
+
+    animation:
+    trackingPop .3s ease;
+
+}
+
+@keyframes trackingPop{
+
+    from{
+
+        opacity:0;
+
+        transform:scale(.9);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:scale(1);
+
+    }
+
+}
+
+.tracking-close{
+
+    position:absolute;
+
+    top:15px;
+
+    right:15px;
+
+    width:34px;
+
+    height:34px;
+
+    border:none;
+
+    border-radius:50%;
+
+    background:#f3f3f3;
+
+    color:#555;
+
+    cursor:pointer;
+
+    font-size:16px;
+
+}
+
+.tracking-icon{
+
+    width:65px;
+
+    height:65px;
+
+    margin:0 auto 12px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    border-radius:50%;
+
+    background:#fff7df;
+
+    font-size:32px;
+
+}
+
+.tracking-content h3{
+
+    text-align:center;
+
+    margin:5px 0;
+
+    font-size:22px;
+
+}
+
+.tracking-order-id{
+
+    text-align:center;
+
+    color:#777;
+
+    font-size:14px;
+
+    margin-bottom:25px;
+
+}
+
+.tracking-order-id strong{
+
+    color:#111;
+
+}
+
+.tracking-status{
+
+    margin-top:10px;
+
+}
+
+.tracking-step{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:14px;
+
+}
+
+.step-icon{
+
+    width:36px;
+
+    height:36px;
+
+    min-width:36px;
+
+    border-radius:50%;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    background:#eee;
+
+    color:#777;
+
+    font-weight:700;
+
+}
+
+.tracking-step.active .step-icon{
+
+    background:#D4A017;
+
+    color:#111;
+
+}
+
+.step-info{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:3px;
+
+}
+
+.step-info strong{
+
+    font-size:14px;
+
+}
+
+.step-info span{
+
+    font-size:12px;
+
+    color:#888;
+
+}
+
+.tracking-line{
+
+    width:2px;
+
+    height:28px;
+
+    background:#ddd;
+
+    margin-left:17px;
+
+}
+
+.tracking-close-btn{
+
+    width:100%;
+
+    margin-top:25px;
+
+    padding:13px;
+
+    border:none;
+
+    border-radius:30px;
+
+    background:#111;
+
+    color:#fff;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+}
