@@ -144,159 +144,95 @@ document.addEventListener("DOMContentLoaded", () => {
 document.addEventListener("DOMContentLoaded", () => {
 
     const counters =
-        document.querySelectorAll(".counter");
+    document.querySelectorAll(".counter");
 
     const statsSection =
-        document.querySelector(".stats-section");
+    document.querySelector(".stats-section");
 
-    // Stats section nahi hai
-    if (!statsSection || counters.length === 0) {
-        return;
-    }
+    if(!statsSection) return;
 
-
-    let counterStarted = false;
-
-
-    function startCounter() {
-
-        // Prevent duplicate animation
-        if (counterStarted) {
-            return;
-        }
-
-        counterStarted = true;
-
+    const startCounter = () => {
 
         counters.forEach(counter => {
 
             const target =
-                Number(counter.dataset.target);
+            parseInt(
+            counter.dataset.target
+            );
 
-            // Invalid target check
-            if (!Number.isFinite(target)) {
-                return;
-            }
+            let count = 0;
 
+            const speed = target / 100;
 
-            const duration = 1500;
+            const updateCounter = () => {
 
-            const startTime =
-                performance.now();
+                if(count < target){
 
+                    count += speed;
 
-            function updateCounter(currentTime) {
-
-                const elapsed =
-                    currentTime - startTime;
-
-                const progress =
-                    Math.min(
-                        elapsed / duration,
-                        1
-                    );
-
-
-                // Smooth animation
-                const currentValue =
-                    Math.floor(
-                        progress * target
-                    );
-
-
-                counter.innerText =
-                    currentValue.toLocaleString();
-
-
-                if (progress < 1) {
+                    counter.innerText =
+                    Math.ceil(count);
 
                     requestAnimationFrame(
-                        updateCounter
+                    updateCounter
                     );
 
-                } else {
+                }else{
 
-                    // Final display
-                    if (target === 5000) {
-
+                    if(target === 5000){
                         counter.innerText =
-                            "5000+";
-
+                        "5000+";
                     }
 
-                    else if (target === 50) {
-
+                    else if(target === 50){
                         counter.innerText =
-                            "50+";
-
+                        "50+";
                     }
 
-                    else if (target === 100) {
-
+                    else if(target === 100){
                         counter.innerText =
-                            "100%";
-
+                        "100%";
                     }
 
-                    else if (target === 5) {
-
+                    else if(target === 5){
                         counter.innerText =
-                            "5★";
-
-                    }
-
-                    else {
-
-                        counter.innerText =
-                            target.toLocaleString();
-
+                        "5★";
                     }
 
                 }
 
-            }
+            };
 
-
-            requestAnimationFrame(
-                updateCounter
-            );
+            updateCounter();
 
         });
 
-    }
+    };
 
-
-    // Observe stats section
     const observer =
-        new IntersectionObserver(
+    new IntersectionObserver(
+    (entries)=>{
 
-            entries => {
+        entries.forEach(entry=>{
 
-                entries.forEach(entry => {
+            if(entry.isIntersecting){
 
-                    if (entry.isIntersecting) {
+                startCounter();
 
-                        startCounter();
+                observer.unobserve(
+                statsSection
+                );
 
-                        observer.unobserve(
-                            statsSection
-                        );
-
-                    }
-
-                });
-
-            },
-
-            {
-                threshold: 0.25
             }
 
-        );
+        });
 
+    }, {
+        threshold:0.4
+    });
 
     observer.observe(
-        statsSection
+    statsSection
     );
 
 });
@@ -486,6 +422,9 @@ button.dataset.filter
 });
 
 });
+
+
+
 function subscribeNewsletter(){
 
     const email =
@@ -525,7 +464,7 @@ function subscribeNewsletter(){
     email.value = "";
 }
 
-ddocument.addEventListener(
+document.addEventListener(
 "DOMContentLoaded",
 ()=>{
 
